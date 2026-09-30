@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://atlas-nine-vert.vercel.app/sitemap.xml

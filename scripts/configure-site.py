@@ -16,6 +16,8 @@ base = f'https://{parsed.netloc}/'
 pages = []
 for p in sorted(root.glob('*.html')):
     s = p.read_text(encoding='utf-8')
+    if re.search(r'<meta name="robots" content="noindex', s):
+        continue
     canonical = re.search(r'<link rel="canonical" href="([^"]+)"', s)
     if not canonical:
         raise SystemExit(f'Canonical ausente: {p.name}')
@@ -39,7 +41,7 @@ for p in sorted(root.glob('*.html')):
     pages.append((p, s, page_url))
 for p, s, _ in pages:
     p.write_text(s, encoding='utf-8')
-(root / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {base}sitemap.xml\n')
+(root / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: {base}sitemap.xml\n')
 entries = ''.join(f'<url><loc>{escape(url)}</loc></url>' for _, _, url in pages)
 (root / 'sitemap.xml').write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{entries}</urlset>\n')
 (root / 'site-config.json').write_text(json.dumps({'url': base, 'name': 'Atlas Viagem', 'language': 'pt-BR'}, ensure_ascii=False, indent=2) + '\n')

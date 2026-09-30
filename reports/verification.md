@@ -1,40 +1,46 @@
 # Verificação do Atlas Viagem
 
-Revisão local em 29/09/2026. Alterações ainda não publicadas no domínio público.
+Revisão em 29/09/2026. Este relatório documenta testes locais; publicação deve ser confirmada na hospedagem.
 
 ## Resultado
 
-- 36 verificações funcionais aprovadas em 1440 × 1000 e 390 × 844.
-- Mapa com oito tiles carregados durante a inspeção; zoom, marcadores, filtros, busca, seis bairros e 30 cadastros de hospedagem funcionando.
-- Todas as cinco abas, navegação por teclado, favoritos, ordem do roteiro e links de rotas verificados.
-- Consulta de hospedagem envia datas, quartos, adultos e idades; datas invertidas bloqueiam a busca. Links externos foram inspecionados sem fazer reservas.
-- Orçamento sincronizado com resumo e passagens; zero não gera divisão inválida. Checklist e orçamento também foram mantidos após recarregar a página em teste separado.
-- Sem rolagem horizontal da página nos tamanhos verificados e sem erros de JavaScript registrados pelo navegador.
-- PDF gerado com 410.299 bytes. Regra de impressão inclui as cinco abas; o conteúdo textual do arquivo PDF não foi extraído nesta revisão.
+- 36 verificações do planejador aprovadas em desktop (1440 × 1000) e celular (390 × 844): abas, teclado, mapa, zoom, hotéis, filtros, buscas, Street View, quartos, datas, viajantes, orçamento, favoritos, roteiro, checklist e SEO.
+- O teste de zoom passou a aguardar o fim da animação do mapa, evitando depender de um atraso fixo. Não houve alteração no comportamento de zoom.
+- Nova abertura com objetivo claro, aviso de que não há venda de passagens ou reservas, cena ilustrativa e cores de viagem. Fontes e limites distinguem consultas externas atuais de cadastros e estimativas.
+- Animação MP4 de cerca de 312 KB, poster WebP e GIF separado. Botão de pausa verificado. Com movimento reduzido, o vídeo permanece sem src e parado; imagem estática continua visível.
+- Sem rolagem horizontal nos tamanhos verificados; sem erros de JavaScript registrados.
+- O PDF de 410.299 bytes foi verificado na revisão anterior. Nesta revisão, as regras de impressão continuam incluindo o planejamento e excluem vídeo e aviso de estatísticas; novo PDF não foi extraído.
 
-## SEO e descoberta por IA
+## Audiência e proteção de dados
 
-Quatro páginas estáticas em português brasileiro, com títulos e descrições próprios, canonical, Open Graph, imagem social e JSON-LD. Três guias interligados tratam de hospedagem em Buenos Aires, orçamento e documentos. Conteúdo explicativo e fontes estão no HTML, acessíveis sem executar o planejador.
+O teste real atravessou navegador → consentimento → API → SQLite → painel protegido → exclusão. Confirmou ausência de identificador e coleta antes da escolha, funcionamento do planejador com recusa, envio somente após permitir, persistência de eventos, login com senha, métricas reais e painel sem rolagem horizontal no celular. O visitante de teste foi excluído; não há contadores de demonstração.
 
-`python3 tests/check-site.py` aprovou recursos locais, links, âncoras, IDs, metadados, JSON-LD, sitemap e troca de domínio em uma cópia temporária. `node --check assets/app.js` e `git diff --check` também passaram.
+Oito testes automatizados passaram: consentimento/validação; reenvios idempotentes; isolamento de sessões; bots/CORS/tamanho de corpo; senha, assinatura e expiração de token; limite diário; exclusão com cascata; retenção e ausência de dados. Testes verificaram que campos pessoais não entram na base de audiência e que senhas/IP não aparecem no relatório.
 
-O endereço configurado é https://atlas-nine-vert.vercel.app/, obtido do campo homepage do repositório. A publicação e a verificação no Search Console ainda são necessárias para solicitar indexação. Nenhum teste local comprova indexação, posição nos resultados ou menção por um assistente de IA.
+No runtime Cloudflare local, a migração D1 foi aplicada e o fluxo de inserts, reenvio, login, consultas agregadas e exclusão passou. `/dashboard` respondeu 200 sem redirecionamento circular, com `noindex` e `no-store`. Segredos locais foram utilizados apenas pelo servidor, fora do Git e dos argumentos de comandos.
 
-## Correções e escopo
+Cidade e país podem ser aproximados pela Cloudflare. No servidor local ficam indisponíveis. Gênero e bairro não são inferidos. A medição representa apenas visitas que permitem estatísticas e não bloqueiam a coleta, sem histórico anterior à instalação.
 
-A página original tinha seções repetidas, IDs duplicados, ausência da seção de hospedagem e trechos de JavaScript fora da tag script. A reprodução inicial falhou nas abas de hospedagem, passagens e etapas. A versão revisada mantém o projeto estático e acrescenta um planejador funcional com persistência por navegador.
+## Build, SEO e publicação
 
-O mapa atual cobre Buenos Aires. O orçamento inicial de R$ 23.000 é um exemplo do projeto original, não uma cotação atual. Cadastros OpenStreetMap não comprovam funcionamento ou disponibilidade de hotéis. Fotos, quartos e preços são consultados externamente; Street View abre no Google Maps conforme a cobertura. Google Hotéis e Google Voos usam pesquisas textuais, e os filtros devem ser conferidos no destino.
+`npm test`, `npm run check`, `npm run build`, `wrangler deploy --dry-run` e `git diff --check` passaram. O build foi inspecionado: sem senha, segredo de assinatura, servidor, banco ou arquivos privados.
 
-Não há API paga, chave, assinatura, geração de cobranças ou chamadas automáticas ao Overpass. O mapa usa tiles públicos OpenStreetMap com atribuição; o cadastro de hotéis e a biblioteca Leaflet são locais. O funcionamento do mapa e dos serviços externos requer internet.
+Seis páginas públicas em português: planejador, três guias, sobre e privacidade. Metadados, JSON-LD, recursos, links e sitemap foram validados, inclusive troca de domínio. Painel marcado noindex e excluído do sitemap; API não indexável. Nenhum teste garante indexação, posição ou citação por IA.
 
-## Fontes consultadas
+O domínio configurado é https://atlas-nine-vert.vercel.app/. `vercel.json` define build estático, dist e rota /dashboard. A coleta de produção permanece desativada: a sessão Cloudflare expirou e OAuth não foi concluído. Nenhum banco remoto ou plano pago foi criado. Código e painel local estão prontos; para medir visitantes online, falta reconectar a conta e publicar o backend, conforme README.
 
-- [Bairros de Buenos Aires — turismo oficial](https://turismo.buenosaires.gob.ar/en/article/neighbourhoods)
-- [Documentação de ingresso como turista — Migrações da Argentina](https://www.argentina.gob.ar/migraciones/documentacion-para-ingresar-al-pais-como-turista)
-- [Viagem de menores — Polícia Federal](https://www.gov.br/pf/pt-br/assuntos/imigracao/controle-migratorio/quais-as-regras-de-viagem-de-criancas-e-adolescentes-ao-exterior)
-- [Maps URLs — Google](https://developers.google.com/maps/documentation/urls/get-started)
-- [Política de tiles — OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/)
-- [SEO para recursos de IA — Google Search Central](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+## Escopo e fontes
 
-Capturas de revisão e PDF disponíveis localmente em `/private/tmp/atlas-viagem-final-desktop.png`, `/private/tmp/atlas-viagem-final-mobile.png`, `/private/tmp/atlas-guide-mobile.png` e `/private/tmp/atlas-planejamento.pdf`.
+Buenos Aires é o foco. Os R$ 23.000 iniciais são um exemplo, não uma cotação atual. Hotéis OpenStreetMap não comprovam funcionamento ou disponibilidade. Fotos, quartos e preços vêm de sites externos. Street View não é ao vivo. AdSense não foi instalado.
+
+- [Turismo oficial de Buenos Aires](https://turismo.buenosaires.gob.ar/en/article/neighbourhoods)
+- [Migrações da Argentina](https://www.argentina.gob.ar/migraciones/documentacion-para-ingresar-al-pais-como-turista)
+- [Viagens de menores — Polícia Federal](https://www.gov.br/pf/pt-br/assuntos/imigracao/controle-migratorio/quais-as-regras-de-viagem-de-criancas-e-adolescentes-ao-exterior)
+- [Google Maps URLs](https://developers.google.com/maps/documentation/urls/get-started)
+- [Política de tiles OpenStreetMap](https://operations.osmfoundation.org/policies/tiles/)
+- [SEO para IA — Google](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+- [Guia ANPD](https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-orientativo-cookies-e-protecao-de-dados-pessoais.pdf)
+- [Cloudflare Workers Free](https://developers.cloudflare.com/workers/platform/pricing/), [D1](https://developers.cloudflare.com/d1/platform/pricing/)
+- [Vercel Hobby e uso não comercial](https://vercel.com/docs/plans/hobby)
+
+Capturas locais: /private/tmp/atlas-travel-desktop.png, /private/tmp/atlas-travel-mobile-final.png, /private/tmp/atlas-dashboard-desktop.png e /private/tmp/atlas-dashboard-mobile.png. As capturas do painel mostram a visita real de teste, posteriormente excluída.

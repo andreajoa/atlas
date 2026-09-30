@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.local/
+.wrangler/
+.vercel/
+.dev.vars*
+.env*
+!.env.example
+*.sqlite*
+worker-configuration.d.ts

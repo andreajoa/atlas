@@ -1,0 +1,16 @@
+{
+  "name": "atlas-viagem",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/analytics.test.mjs",
+    "check": "node --check assets/app.js && node --check assets/analytics.js && node --check assets/dashboard.js && python3 tests/check-site.py",
+    "cf:dev": "npm run build && wrangler dev",
+    "cf:deploy": "npm run build && wrangler deploy"
+  },
+  "devDependencies": { "wrangler": "^4.144.0" }
+}

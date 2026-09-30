@@ -18,7 +18,8 @@ class Page(HTMLParser):
         super().__init__()
         self.tags, self.ids, self.links = [], [], []
         self.feed(text)
-        self.schema = json.loads(re.search(r'<script type="application/ld\+json" id="structured-data">(.*?)</script>', text, re.S)[1])
+        match = re.search(r'<script type="application/ld\+json" id="structured-data">(.*?)</script>', text, re.S)
+        self.schema = json.loads(match[1]) if match else None
         self.title = re.search(r'<title>(.*?)</title>', text, re.S)[1]
 
     def handle_starttag(self, tag, attrs):
@@ -37,6 +38,10 @@ def verify(root):
     pages = {file.name: Page(file.read_text(encoding='utf-8')) for file in files}
     urls, titles, descriptions = [], [], []
     for name, page in pages.items():
+        if page.find('meta', 'name', 'robots', 'content').startswith('noindex'):
+            assert name == 'dashboard.html'
+            assert page.schema is None
+            continue
         url = base + ('' if name == 'index.html' else name)
         assert page.find('link', 'rel', 'canonical', 'href') == url, name + ': canonical'
         assert page.find('meta', 'property', 'og:url', 'content') == url, name + ': og:url'

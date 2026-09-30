@@ -56,7 +56,9 @@
   const streetView = place => 'https://www.google.com/maps/@?' + new URLSearchParams({ api: '1', map_action: 'pano', viewpoint: `${place.lat},${place.lng}` });
   function external(label, url, primary = false) { return `<a class="button ${primary ? 'primary' : 'quiet'}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} ↗</a>`; }
   function safeWebsite(value) { try { const url = new URL(value); return ['https:', 'http:'].includes(url.protocol) ? url.href : null; } catch { return null; } }
-  function selectPlace(place, move = true) {
+  const measure = (name, target) => document.dispatchEvent(new CustomEvent('atlas:analytics', { detail: { name, target } }));
+  function selectPlace(place, move = true, record = true) {
+    if (record) measure('place_view', place.id);
     selected = place;
     $('selected-place').hidden = false;
     $('selected-place').innerHTML = `<div><span class="small-label">${esc(categories[place.type] || 'Lugar salvo')}</span><h3>${esc(place.name)}</h3><p>${esc(place.note || 'Confira localização, funcionamento e disponibilidade com a hospedagem.')}</p></div><div class="place-actions">${external('Ver a rua no Street View', streetView(place))}${external('Abrir no Google Maps', mapSearch(place))}${place.website && safeWebsite(place.website) ? external('Site do lugar', safeWebsite(place.website)) : ''}<button class="button quiet" id="save-selected" type="button">${savedHas(place.id) ? 'Remover dos salvos' : 'Salvar no roteiro'}</button>${place.type === 'bairro' || place.type === 'hotel' ? '<button class="button primary" id="search-selected-stay" type="button">Ver quartos e preços ↗</button>' : ''}</div>`;
@@ -64,6 +66,7 @@
     $('search-selected-stay')?.addEventListener('click', () => {
       if (place.area) { $('stay-area').value = place.area; updateTrip(); }
       if (!$('stay-form').reportValidity() || !updateTrip()) { $('stay-form').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+      measure('stay_search', place.id);
       window.open(bookingUrl(place.type === 'hotel' ? `${place.name}, Buenos Aires` : null), '_blank', 'noopener,noreferrer');
     });
     if (map && move) map.setView([place.lat, place.lng], place.type === 'bairro' ? 14 : 16);
@@ -72,8 +75,9 @@
   function toggleSaved(place) {
     if (savedHas(place.id)) state.saved = state.saved.filter(p => p.id !== place.id);
     else state.saved.push({ ...place });
+    measure(savedHas(place.id) ? 'favorite_add' : 'favorite_remove', place.id);
     persist(); renderSaved(); renderPlaces();
-    if (selected?.id === place.id) selectPlace(place, false);
+    if (selected?.id === place.id) selectPlace(place, false, false);
     toast(savedHas(place.id) ? 'Lugar salvo no seu roteiro.' : 'Lugar removido do roteiro.');
   }
   function filteredPlaces() {
@@ -142,6 +146,7 @@
   const tabs = [...document.querySelectorAll('.tab')];
   function showTab(id, push = true, focus = false) {
     if (!tabs.some(tab => tab.dataset.t === id)) id = 'geral';
+    document.dispatchEvent(new CustomEvent('atlas:section', { detail: { section: id } }));
     tabs.forEach(tab => { const active = tab.dataset.t === id; tab.classList.toggle('active', active); tab.setAttribute('aria-selected', String(active)); tab.tabIndex = active ? 0 : -1; const panel = $(tab.dataset.t); panel.hidden = !active; panel.classList.toggle('active', active); if (active && focus) tab.focus(); });
     if (push && location.hash !== `#${id}`) history.pushState(null, '', `#${id}`);
     if (id === 'onde') requestAnimationFrame(() => { initMap(); loadHotels(); });
@@ -185,7 +190,7 @@
   function bookingUrl(search = null) { const params = new URLSearchParams({ ss: search || `${state.area === 'Buenos Aires' ? 'Buenos Aires' : `${state.area}, Buenos Aires`}, Argentina`, checkin: state.checkin, checkout: state.checkout, group_adults: state.adults, group_children: state.ages.length, no_rooms: state.rooms }); state.ages.forEach(age => params.append('age', age)); return 'https://www.booking.com/searchresults.pt-br.html?' + params; }
   ['checkin', 'checkout', 'stay-area', 'rooms', 'adults', 'flight-origin'].forEach(id => $(id).addEventListener('change', updateTrip));
   $('children').addEventListener('change', () => { state.ages = Array.from({ length: Number($('children').value) }, (_, i) => state.ages[i] ?? 10); renderAges(); updateTrip(); });
-  $('stay-form').addEventListener('submit', event => { event.preventDefault(); if ($('stay-form').reportValidity() && updateTrip()) window.open(bookingUrl(), '_blank', 'noopener,noreferrer'); });
+  $('stay-form').addEventListener('submit', event => { event.preventDefault(); if ($('stay-form').reportValidity() && updateTrip()) { measure('stay_search', normalize(state.area).replace(/ /g, '-')); window.open(bookingUrl(), '_blank', 'noopener,noreferrer'); } });
   function renderSaved() {
     $('saved-count').textContent = `${state.saved.length} ${state.saved.length === 1 ? 'lugar' : 'lugares'}`; $('saved-list').replaceChildren();
     if (!state.saved.length) $('saved-list').innerHTML = '<p class="empty">Seu roteiro está em branco. Explore o mapa e salve os lugares que quer conhecer.</p>';
@@ -193,7 +198,7 @@
       const row = document.createElement('div'); row.className = 'saved-item'; row.innerHTML = `<span class="step-number">${String(index + 1).padStart(2, '0')}</span><div class="saved-name"><strong>${esc(place.name)}</strong><small>${esc(categories[place.type] || 'Lugar')}</small></div>`;
       for (const [label, char, direction] of [['Mover para cima', '↑', -1], ['Mover para baixo', '↓', 1], ['Remover', '×', 0]]) {
         const button = document.createElement('button'); button.type = 'button'; button.className = 'mini-button'; button.textContent = char; button.setAttribute('aria-label', `${label}: ${place.name}`); button.disabled = direction === -1 && index === 0 || direction === 1 && index === state.saved.length - 1;
-        button.addEventListener('click', () => { if (!direction) state.saved.splice(index, 1); else [state.saved[index], state.saved[index + direction]] = [state.saved[index + direction], state.saved[index]]; persist(); renderSaved(); renderPlaces(); if (selected) selectPlace(selected, false); }); row.append(button);
+        button.addEventListener('click', () => { if (!direction) state.saved.splice(index, 1); else [state.saved[index], state.saved[index + direction]] = [state.saved[index + direction], state.saved[index]]; persist(); renderSaved(); renderPlaces(); if (selected) selectPlace(selected, false, false); }); row.append(button);
       }
       $('saved-list').append(row);
     });

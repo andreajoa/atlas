@@ -24,7 +24,8 @@
     for (let i = 0; i < 80 && !$('map').dataset.ready; i++) await sleep(100);
     assert($('map').dataset.ready === 'true', 'Mapa inicializado');
     const initialZoom = Number($('map').dataset.zoom || 13);
-    document.querySelector('.leaflet-control-zoom-in').click(); await sleep(350);
+    document.querySelector('.leaflet-control-zoom-in').click();
+    for (let i = 0; i < 80 && Number($('map').dataset.zoom || initialZoom) <= initialZoom; i++) await sleep(100);
     assert(Number($('map').dataset.zoom) > initialZoom, 'Controle de zoom aproxima o mapa');
     for (let i = 0; i < 80 && !document.querySelector('[data-place^="osm-"]'); i++) await sleep(100);
     document.querySelector('[data-filter="hotel"]').click();
