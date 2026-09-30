@@ -3,238 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Buenos Aires em Família · Julho 2027</title>
+<title>Viagem à Argentina: mapa, hotéis e orçamento | Atlas Viagem</title>
+<meta name="description" content="Planeje sua viagem à Argentina: explore Buenos Aires no mapa, consulte hotéis e quartos, organize passeios e calcule seu orçamento em reais. Grátis.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://atlas-nine-vert.vercel.app/">
+<meta property="og:url" content="https://atlas-nine-vert.vercel.app/">
+<meta name="theme-color" content="#0c1524">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Atlas Viagem">
+<meta property="og:title" content="Sua viagem à Argentina começa aqui | Atlas Viagem">
+<meta property="og:description" content="Buenos Aires no mapa. Hotéis, passeios, orçamento em reais e planejamento gratuito para brasileiros.">
+<meta property="og:image" content="https://atlas-nine-vert.vercel.app/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Atlas Viagem · Planeje sua viagem à Argentina">
+<meta name="twitter:description" content="Mapa, hospedagem, roteiro e orçamento em reais. Um planejador gratuito para brasileiros.">
+<meta name="twitter:image" content="https://atlas-nine-vert.vercel.app/assets/social.png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
-<style>
-  :root{
-    --navy:#0c1524;
-    --navy2:#111d31;
-    --panel:#152238;
-    --line:rgba(255,255,255,.08);
-    --celeste:#7fb3e0;
-    --celeste-soft:rgba(127,179,224,.14);
-    --sol:#f4c430;
-    --sol-soft:rgba(244,196,48,.14);
-    --text:#eef2f7;
-    --muted:#9fb0c3;
-    --good:#7dd0a0;
-    --warn:#e8a15c;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--navy);color:var(--text);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
-  h1,h2,h3,.display{font-family:'Fraunces',serif;}
-  .wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
-  .topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:26px;}
-  .eyebrow{color:var(--celeste);font-size:13px;letter-spacing:.02em;margin:0 0 6px;}
-  .topbar h1{font-size:32px;margin:0;font-weight:600;line-height:1.15;}
-  .topbar p{color:var(--muted);margin:8px 0 0;font-size:14.5px;max-width:520px;}
-  .flag{display:flex;gap:5px;}
-  .flag span{width:34px;height:22px;border-radius:3px;}
-  .flag span:nth-child(1){background:#6eaada;}
-  .flag span:nth-child(2){background:#f4f4f4;}
-  .flag span:nth-child(3){background:#6eaada;}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
-  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;}
-  .kpi .label{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;}
-  .kpi .value{font-size:26px;font-weight:700;margin-top:6px;font-family:'Fraunces',serif;}
-  .kpi .sub{color:var(--muted);font-size:12.5px;margin-top:4px;}
-  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:26px;flex-wrap:wrap;}
-  .tab{background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:14.5px;font-weight:600;padding:11px 16px;cursor:pointer;border-bottom:2px solid transparent;}
-  .tab.active{color:var(--sol);border-bottom-color:var(--sol);}
-  .panel{display:none;}
-  .panel.active{display:block;animation:fade .25s ease;}
-  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;}
-  .card h2{font-size:18px;margin:0 0 4px;font-weight:600;}
-  .card .cap{color:var(--muted);font-size:13px;margin:0 0 16px;}
-  .nb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-  .nb{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--navy2);}
-  .nb .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-  .nb h3{margin:0;font-size:16px;}
-  .badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
-  .badge.high{background:rgba(125,208,160,.16);color:var(--good);}
-  .badge.mid{background:var(--sol-soft);color:var(--sol);}
-  .nb p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;}
-  .pick{border-color:var(--celeste);box-shadow:0 0 0 1px var(--celeste) inset;}
-  .pick .top:after{content:"Recomendado";font-size:10.5px;color:var(--navy);background:var(--celeste);padding:2px 8px;border-radius:20px;font-weight:700;}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;}
-  th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em;padding:8px 10px;border-bottom:1px solid var(--line);}
-  td{padding:10px;border-bottom:1px solid var(--line);}
-  tr:last-child td{border-bottom:none;}
-  .num{text-align:right;font-variant-numeric:tabular-nums;}
-  .tot td{font-weight:700;border-top:1px solid var(--line);border-bottom:none;color:var(--sol);}
-  .chart-box{position:relative;height:230px;}
-  .steps{list-style:none;margin:0;padding:0;counter-reset:step;}
-  .steps li{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
-  .steps li:last-child{border-bottom:none;}
-  .steps .n{counter-increment:step;width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:var(--celeste-soft);color:var(--celeste);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13.5px;}
-  .steps .n::before{content:counter(step);}
-  .steps h3{margin:0 0 4px;font-size:15.5px;}
-  .steps p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;}
-  .steps .when{color:var(--sol);font-size:12px;font-weight:600;margin-left:auto;white-space:nowrap;padding-left:12px;}
-  .note{background:var(--sol-soft);border:1px solid rgba(244,196,48,.3);border-radius:10px;padding:14px 16px;color:var(--text);font-size:13px;line-height:1.6;margin-top:18px;}
-  .note b{color:var(--sol);}
-  .sources{color:var(--muted);font-size:12px;margin-top:30px;line-height:1.7;border-top:1px solid var(--line);padding-top:16px;}
-  @media (max-width:820px){
-    .kpis{grid-template-columns:repeat(2,1fr);}
-    .grid2{grid-template-columns:1fr;}
-    .nb-grid{grid-template-columns:1fr;}
-  }
-</style>
+<link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src="assets/vendor/leaflet/leaflet.js"></script>
+<script defer src="assets/app.js"></script>
+<script type="application/ld+json" id="structured-data">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://atlas-nine-vert.vercel.app/#website","name":"Atlas Viagem","inLanguage":"pt-BR","description":"Planejador gratuito de viagem à Argentina para brasileiros","url":"https://atlas-nine-vert.vercel.app/"},{"@type":"WebPage","@id":"https://atlas-nine-vert.vercel.app/#webpage","name":"Viagem à Argentina: mapa, hotéis e orçamento","inLanguage":"pt-BR","isPartOf":{"@id":"https://atlas-nine-vert.vercel.app/#website"},"about":{"@type":"TouristDestination","name":"Buenos Aires, Argentina","geo":{"@type":"GeoCoordinates","latitude":-34.6037,"longitude":-58.3816}},"audience":{"@type":"Audience","audienceType":"Brasileiros planejando uma viagem à Argentina"},"url":"https://atlas-nine-vert.vercel.app/"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"O Atlas Viagem é gratuito?","acceptedAnswer":{"@type":"Answer","text":"Sim. O mapa, o orçamento e o checklist não exigem assinatura ou cartão. Reservas e serviços externos têm seus próprios preços."}},{"@type":"Question","name":"Como consultar preços de hotéis em Buenos Aires?","acceptedAnswer":{"@type":"Answer","text":"Escolha as datas, o bairro e os quartos no planejador. A consulta abre no serviço de hospedagem, onde você confere fotos, preço total e disponibilidade atual."}},{"@type":"Question","name":"Qual é o orçamento para viajar à Argentina em família?","acceptedAnswer":{"@type":"Answer","text":"O exemplo do Atlas considera R$ 23.000 para quatro pessoas e dez noites, distribuídos em passagens, hospedagem, alimentação, passeios, transporte e seguro. É uma estimativa editável de planejamento, não uma cotação atual."}},{"@type":"Question","name":"Posso explorar as ruas com Street View?","acceptedAnswer":{"@type":"Answer","text":"Sim. Selecione um lugar no mapa e use Ver a rua no Street View. A visualização abre no Google Maps e depende da cobertura disponível."}}]}]}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Pular para o conteúdo</a>
 <div class="wrap">
-  <div class="topbar">
-    <div>
-      <p class="eyebrow">Planejamento de viagem · Família de 4</p>
-      <h1>Buenos Aires, Argentina</h1>
-      <p>Roteiro e orçamento para a viagem em família — julho de 2027. Painel com estimativas de passagens, bairros seguros para se hospedar e etapas de planejamento.</p>
-    </div>
-    <div class="flag"><span></span><span></span><span></span></div>
-  </div>
-  <div class="kpis">
-    <div class="kpi"><div class="label">Viajantes</div><div class="value">4</div><div class="sub">2 adultos + filha (18) + filho (10)</div></div>
-    <div class="kpi"><div class="label">Período sugerido</div><div class="value">10 noites</div><div class="sub">Julho de 2027 (inverno argentino)</div></div>
-    <div class="kpi"><div class="label">Passagens (4 pax)</div><div class="value">R$ 7,0–8,8 mil</div><div class="sub">Ida e volta, GRU ↔ EZE/AEP</div></div>
-    <div class="kpi"><div class="label">Orçamento total est.</div><div class="value">R$ 22–28 mil</div><div class="sub">Aéreo + hospedagem + terra</div></div>
-  </div>
-  <div class="tabs">
-    <button class="tab active" data-t="geral">Visão geral</button>
-    <button class="tab" data-t="onde">Onde ficar</button>
-    <button class="tab" data-t="voo">Passagens aéreas</button>
-    <button class="tab" data-t="orc">Orçamento</button>
-    <button class="tab" data-t="etapas">Etapas do planejamento</button>
-  </div>
-  <div class="panel active" id="geral">
-    <div class="grid2">
-      <div class="card">
-        <h2>Por que julho é um mês especial</h2>
-        <p class="cap">Inverno no hemisfério sul — coincide com as férias escolares no Brasil</p>
-        <p style="color:var(--muted);font-size:14px;line-height:1.7;">Julho é férias escolares no Brasil, o que combina com a rotina da sua filha e do seu filho, mas por isso mesmo é também um dos meses <b style="color:var(--text)">mais caros</b> do ano para voar a Buenos Aires — a alta demanda de famílias brasileiras empurra o preço das passagens para cima. Em compensação, a cidade fica linda e tranquila no inverno: temperaturas entre 7°C e 15°C, museus e vida cultural indoor em alta, e menos calor para caminhar bastante com as crianças.</p>
-      </div>
-      <div class="card">
-        <h2>Documentação</h2>
-        <p class="cap">Mercosul facilita a entrada</p>
-        <ul style="color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;padding-left:18px;">
-          <li>RG emitido há menos de 10 anos (ou passaporte) para todos, incluindo os dois filhos</li>
-          <li>Como ambos os pais viajam junto com os menores, <b style="color:var(--text)">não</b> é exigida autorização de viagem notarizada</li>
-                </div>
-      <div class="card">
-        <h2>Documentação</h2>
-        <p class="cap">Mercosul facilita a entrada</p>
-        <ul style="color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;padding-left:18px;">
-          <li>RG emitido há menos de 10 anos (ou passaporte) para todos, incluindo os dois filhos</li>
-          <li>Como ambos os pais viajam junto com os menores, <b style="color:var(--text)">não</b> é exigida autorização de viagem notarizada</li>
-                </div>
-      <div class="card">
-       <div class="nb pick">
-          <div class="top"><h3>Recoleta</h3><span class="badge high">Muito seguro</span></div>
-          <p>O bairro mais elegante e tranquilo à noite, com boa presença policial e ruas arborizadas. Ótimo para famílias que priorizam sossego e proximidade de museus e cafés — recomendado por guias 20                </div>
-      <div class="card">
-        <h2>Documentação</h2>
-        <p class="cap">Mercosul facilita a entrada</p>
-     class="badge high">Muito seguro</span></div>
-          <p>O maior bairro da cidade, moderno, com parques enormes para o filho de 10 anos e vida gastronômica para os adultos e a filha de 18. Boa opção como primeira vez em Buenos Aires.</p>
-        </div>
-        <div class="nb">
-          <div class="top"><h3>Belgrano</h3><span class="badge high">Muito seguro</span></div>
-          <p>Bairro residencial, mais afastado do circuito turístico, com clima de bairro tranquilo. Boa relação custo-benefício, porém exige m       <div clas até os principais pontos turísticos          <p>O bairro mais elegante e tranquilo à noite, com boa presença policial e ruas a3>      <div class="card">
-        <h2>Documentação</h2>
-        <p class="cap">Mercosul facilita a entrada</p>
-     class="badge high">Muito seguro</span></div>
-          <p>O maior bairro da cidade, moderno, com parques enor      </div>
-        <div class="nb">
-          <div class="top"><h3>Microcentro</h3><span class="badge mid">Seguro de           <p>O maior bairro da cidade, mara caminh        </div>
-        <div cturísticos, mas mais esvaziado e menos indicado à noite. Melhor para quem prioriza economia e vai se recolher cedo com as crianças.</p>
-        </div>
-        <div class="nb">
-          <div class="top"><h3>San Telmo</h3><span class="badge mid">Seguro de dia</span></div>
-          <p>Charme históri        <h2>Documentação</h2>
-        <p class="cap">Mercosul facilita a entrada</p>
-     class="badge high">Muito seguro</span></div>
-          <p>O maior bairro da cidade, moderno, com parques enor      </div>
-        <div class="nb">
-          <div class="top"><h3>Microcentro</h3><span class="badge mid">Seguro de  prático para o filho de 10 anos e mais barato do que comer fora em todas as refeições.</div>
-    </div>
-  </div>
-  <div class="panel" id="voo">
-    <div class="grid2">
-      <div class="card">
-        <h2>Preço médio por mês — rota São Paulo ↔ Buenos Aires</h2>
-        <p class="cap">Ida e volta, por passageiro (histórico de buscas, referência para projeção 2027)</p>
-        <div class="chart-box"><canvas id="chartMeses"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>Estimativa para os 4 viajantes</h2>
-        <p class="cap">Baseado no preço médio de julho por pessoa</p>
-        <table>
-          <tr><th>Passageiro</th><th class="n        <p clas (est.)</th></tr>
-          <tr><td>Você</td><td class="num">R$ 1.750</td></tr>
-          <tr><td>E          <p>O maior bairro da cid</td></tr>
-          <tr><td>Filha (18)</td><td class="num">R$ 1.750</td></tr>
-          <tr><td>Filho (10)</td><td class="num">R$ 1.750</td></tr>
-          <tr class="tot"><td>Total (4 pax)</td><td class="num">≈ R$ 7.000</td></tr>
-        </table>
-        <div class="note">Faixa realista: <b>R$ 6.200 a R$ 8.800</b> para o grupo, dependendo da antecedência da compra e da companhia aérea. Julho é historicamente um dos meses mais caros do ano nessa rota — comprar com 4 a 6 meses de antecedência (março–abril de 2027) tende a garantir os melhores preços.</div>
-      </div>
-    </div>
-  </div>
-  <div class="panel" id="orc">
-    <div class="grid2">
-      <div class="card">
-        <h2>Distribuição do orçamento estimado</h2>
-        <p class="cap">Total aproximado para 4 pessoas · 10 noites</p>
-        <div class="chart-box"><canvas id="chartOrc"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>Detalhamento por item</h2>
-        <table>
-          <tr><th>Item</th><th class="num">Estimativa</th></tr>
-          <tr><td>Passagens aéreas (4 pax)</td><td class="num">R$ 7.000</td></tr>
-          <tr><td>Hospedagem (10 noites, Recoleta/Palermo)</td><td class="num">R$ 6.500</td></tr>
-          <tr><td>Alimentação (4 pessoas)</td><td c      </div>
-    </div>
-  </div>
-  <div class="panel" id="orc">
-    <div class="grid2">
-      <div class="card">
-        <h2>Distribuição do orçamento estimado</h2>
-        <p class="cap"<tr><td>Seguro viagem (4 pax)</td><td class="num">R$ 800</td></tr>
-          <tr class="tot"><td>Total estimado</td><td class="num">?   </div>
-</td></tr>
-        </table>
-        <div class="note">Valores em referência de preços atuais (2026), ajustados para viagem em julho de 2027. Câmbio argentino é volátil — reavalie 60–90 dias antes da viagem.</div>
-      </div>
-    </div>
-  </div>
-  <div class="panel" id="etapas">
-    <div class="card">
-      <h2>Etapas do plan        <table>
-          <tr><th>Ite agora até o emba          <tr><td>Passagens aéreas (4 pax)</td><td class="num><div class="n"></div><div><h3>Definir datas exatas e duração</h3><p>Confirmar as datas das férias escolares de 2027 e reservar 9–10 noites em Buenos Aires.</p></div><span class="when">Agora</span></li>
-        <li><div class="n"></div><div><h3>Checar documentos da família</h3><p>Conferir validade do RG/passaporte de todos, incluindo filha (18) e filho (10). Renovar se vencer antes de julho de 2          <iv><span class="when">Até dez/2026</span></li>
-        <li><div class="n"></div><div><h3>Monitorar preços de passagem</h3><p>Criar alertas de preço (Skyscanner, Kayak) na rota GRU/CGH ↔ EZE/AEP para comprar na melhor janela.</p></div><span class="when">Jan–mar/2027</span></li>
-        <li><div class="n"></div><div><h3>Comprar as passagens</h3><p>Fechar a compra com 4?   </div>
- antecedência, período que historicamente tem os melhores preços antes da alta de julho.</p></div><span class="when"        <li><div class="n"></div><div><h3>Checar documentos da família</h3><p>Conferir validade do RG/passaporte de todos, incluindo filha (18) e filho (10). Renovar se vencer antes de julho de 2          <iv><span class="when">Até dez/2026</span></li>
-        <li><div class="n"></div><div><h3>Monitorar r         <li><div class="n"></div><div><h3>Monitorar preços de passagem</h3><p>Criar alertas de preço (Skyscanner, Kayak) na rota GRU/CGH ↔ EZE/AEP p      <li><div class="n"></div><div><h3>Organizar câmbio e cartões</h3><p>Levar parte em dólar/pesos        <li><div class="n"></div><div><h3>Comprar as passagens</h3><p>Fechar a compra com 4?   </div>
- antecedência, período que historicamente tem os melhores preços antes da alta de julho.</p></div><span class="when"        <li>ília (parques, museus, feiras) e reserva de restaurantes para os dias de maior movimento.</p></div><span         <li><div class="n"></div><div><h3>Monitorar r         <li><div class="n"></div><div><h3>Monitorar preços de passagem</h3><p>Criar alertas de preço (Skyscanner, Kayak) na rota GRU/CGH ↔ EZE/AEP p      <li><div class="n"></div><div><h3>Organizar câmbio e cartões</h3><p>Levar parte em dólar/pesos        <li><div ços e bairros pesquisados em set/2026, sujeitos antecedência, período que historicamente tem os melhores preços antes da alta de julho.</p></div><span class="when"        <li>ília (parques, museus, feiras) e reserva de restaurantes para os dias de maior movimento.</p></div><span         <li><div class="n"></div><div><h3>Monitorar r         <li><div class="n"></div><div><h3>Monit    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document.querySelectorAll('.ta      document'chartOrc'), {
-    type:'doughnut',
-    data:{
-      labels:['Passagens','Hospedagem','Alimentação','Passeios','Transporte local','Seguro viagem'],
-      datasets:[{
-        data:[7000,6500,5000,3000,700,800],
-        backgroundColor:['#7fb3e0','#f4c430','#7dd0a0','#e8a15c','#c98bd8','#5aa9c9'],
-        borderColor:'#152238',
-        borderWidth:2
-      }]
-    },
-    options:{
-      plugins:{legend:{position:'bottom',labels:{color:textColor,boxWidth:12,padding:14,font:{size:11.5}}}}
-    }
-  });
-</script>
-</body>
-</html>
+<header class="topbar"><a class="brand" href="#geral" aria-label="Atlas Viagem, início"><span class="brand-mark" aria-hidden="true">A</span>atlas<span>viagem</span></a><span class="trip-label">Argentina <span aria-hidden="true">/</span> Buenos Aires</span><button class="button quiet" id="print-plan" type="button">Imprimir planejamento</button></header>
+<section class="hero" aria-labelledby="trip-title"><div><p class="eyebrow">Para brasileiros. Para a sua próxima história.</p><h1 id="trip-title">Sua viagem à Argentina.<br><em>Do seu jeito.</em></h1><p class="intro">Explore Buenos Aires, encontre sua hospedagem e organize os gastos em reais. Tudo em um planejamento gratuito, que fica com você.</p><button class="button primary" type="button" data-go="onde">Explorar a cidade <span aria-hidden="true">↗</span></button><p class="hero-note">Sem cadastro. Sem assinatura. Comece pelo mapa.</p></div><div class="trip-card"><span class="small-label">Seu ponto de partida</span><div class="trip-month" id="trip-month">Julho <span>2027</span></div><p>Exemplo de viagem: 3 adultos e 1 criança</p><dl><div><dt>Noites</dt><dd id="hero-nights">10</dd></div><div><dt>Total planejado</dt><dd id="hero-budget">R$ 23.000</dd></div></dl><span class="tag">Ajuste datas, viajantes e orçamento</span></div></section>
+<nav class="tabs" role="tablist" aria-label="Planejamento da viagem">
+<button class="tab active" id="tab-geral" role="tab" aria-selected="true" aria-controls="geral" data-t="geral" type="button">Visão geral</button>
+<button class="tab" id="tab-onde" role="tab" aria-selected="false" aria-controls="onde" tabindex="-1" data-t="onde" type="button">Mapa e hospedagem</button>
+<button class="tab" id="tab-voo" role="tab" aria-selected="false" aria-controls="voo" tabindex="-1" data-t="voo" type="button">Passagens</button>
+<button class="tab" id="tab-orc" role="tab" aria-selected="false" aria-controls="orc" tabindex="-1" data-t="orc" type="button">Orçamento</button>
+<button class="tab" id="tab-etapas" role="tab" aria-selected="false" aria-controls="etapas" tabindex="-1" data-t="etapas" type="button">Roteiro e etapas</button>
+</nav>
+<main id="main">
+<section class="panel active" id="geral" role="tabpanel" aria-labelledby="tab-geral" tabindex="0">
+<div class="section-heading"><div><p class="eyebrow">Do desejo ao embarque</p><h2>Primeiro, o essencial.</h2></div><span class="muted">Um planejamento que você pode ajustar</span></div>
+<div class="overview-actions"><button class="action-card" type="button" data-go="onde"><span class="step-number">01</span><h3>Escolha sua base</h3><p>Compare bairros, explore as ruas e consulte hospedagens.</p><span class="text-link">Abrir mapa ↗</span></button><button class="action-card" type="button" data-go="orc"><span class="step-number">02</span><h3>Ajuste o orçamento</h3><p>Defina quanto pretende gastar em cada parte da viagem.</p><span class="text-link">Calcular gastos ↗</span></button><button class="action-card" type="button" data-go="etapas"><span class="step-number">03</span><h3>Monte seu roteiro</h3><p>Salve lugares no mapa e acompanhe o que já está pronto.</p><span class="text-link">Ver planejamento ↗</span></button></div>
+<div class="grid2 overview-details"><article class="card"><p class="eyebrow">Buenos Aires em família</p><h3>Deixe espaço para descobrir.</h3><p class="body-copy">Alterne passeios ao ar livre com museus, cafés e programas cobertos. Agrupe lugares próximos no mapa e planeje pausas para que todos aproveitem a viagem.</p><div class="note">O exemplo inicial usa <strong>10 a 20 de julho de 2027</strong>. São datas sugeridas; ajuste o período antes de pesquisar ou reservar.</div><button class="text-button" type="button" data-go="onde">Ajustar datas e viajantes →</button></article><article class="card"><p class="eyebrow">Antes de reservar</p><h3>Documentos para viajar à Argentina</h3><ul class="simple-list"><li>Confira o documento aceito e em boas condições para cada viajante nas regras de migração.</li><li>Para quem viaja com menores, verifique autorização e comprovação do vínculo familiar.</li><li>Confirme as exigências vigentes com a companhia e as autoridades antes do embarque.</li></ul><div class="link-row"><a href="https://www.gov.br/pf/pt-br/assuntos/imigracao/controle-migratorio/quais-as-regras-de-viagem-de-criancas-e-adolescentes-ao-exterior" target="_blank" rel="noopener noreferrer">Polícia Federal ↗</a><a href="https://www.argentina.gob.ar/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" rel="noopener noreferrer">Migrações da Argentina ↗</a></div></article></div>
+</section>
+<section class="panel" id="onde" role="tabpanel" aria-labelledby="tab-onde" tabindex="0" hidden>
+<div class="section-heading"><div><p class="eyebrow">Explore antes de escolher</p><h2>Buenos Aires no seu mapa.</h2></div><span class="tag">Mapa gratuito · sem cadastro</span></div>
+<div class="map-toolbar"><label class="search-field"><span>Buscar um lugar ou bairro</span><input id="place-search" type="search" placeholder="Recoleta, museus, parques…" autocomplete="off"></label><div class="filters" role="group" aria-label="Filtrar lugares"><button class="filter active" type="button" data-filter="all" aria-pressed="true">Todos</button><button class="filter" type="button" data-filter="bairro" aria-pressed="false">Bairros</button><button class="filter" type="button" data-filter="passeio" aria-pressed="false">Passeios</button><button class="filter" type="button" data-filter="hotel" aria-pressed="false">Hotéis</button><button class="filter" type="button" data-filter="saved" aria-pressed="false">Salvos</button></div></div>
+<div class="map-layout"><aside class="place-sidebar" aria-label="Lugares no mapa"><div class="results-heading"><span id="place-count" role="status">Lugares para explorar</span><button class="text-button" type="button" id="fit-map">Ver todos</button></div><div id="place-list" class="place-list"></div></aside><div class="map-column"><div class="map-shell"><div id="map" role="region" aria-label="Mapa interativo de Buenos Aires"></div><div class="map-message" id="map-message" role="status" hidden></div></div><p class="map-help">Use + e − para dar zoom; arraste para explorar. Toque nos marcadores. Street View abre no Google Maps, conforme a cobertura.</p></div></div>
+<article class="selected-place card" id="selected-place" hidden aria-live="polite"></article>
+<div class="stay-section"><div class="section-heading"><div><p class="eyebrow">Sua base na cidade</p><h2>Hotéis, quartos e preços.</h2></div></div><form id="stay-form" class="card stay-form"><div class="stay-fields"><label>Entrada<input type="date" id="checkin" required value="2027-07-10"></label><label>Saída<input type="date" id="checkout" required value="2027-07-20"></label><label>Bairro<select id="stay-area"><option value="Buenos Aires">Toda Buenos Aires</option><option>Recoleta</option><option>Palermo</option><option>Belgrano</option><option>Puerto Madero</option><option>San Telmo</option><option>Microcentro</option></select></label><label>Quartos<select id="rooms"><option value="1">1 quarto</option><option value="2">2 quartos</option><option value="3">3 quartos</option><option value="4">4 quartos</option></select></label><label>Adultos<input type="number" id="adults" min="1" max="12" step="1" value="3" required></label><label>Crianças<select id="children"><option value="0">Nenhuma</option><option value="1" selected>1 criança</option><option value="2">2 crianças</option><option value="3">3 crianças</option><option value="4">4 crianças</option></select></label></div><div id="child-ages" class="child-ages"></div><p id="stay-error" class="form-error" role="alert" hidden></p><div class="stay-bottom"><div><strong id="stay-summary">10 noites · 3 adultos + 1 criança</strong><p class="muted">Confira fotos, preço total, cancelamento e acomodação para o grupo no serviço externo.</p></div><button class="button primary" type="submit">Ver quartos e preços ↗</button></div><a id="google-hotels" class="text-link" href="https://www.google.com/travel/hotels?q=Buenos%20Aires" target="_blank" rel="noopener noreferrer">Comparar também no Google Hotéis ↗</a><p class="fine-print">Consultar é grátis. Preços e disponibilidade vêm do serviço externo; o Atlas não faz reservas nem cobra comissão.</p></form></div>
+</section>
+<section class="panel" id="voo" role="tabpanel" aria-labelledby="tab-voo" tabindex="0" hidden>
+<div class="section-heading"><div><p class="eyebrow">O primeiro trecho da história</p><h2>Passagens para Buenos Aires.</h2></div></div><div class="grid2"><article class="card flight-card"><label>Aeroporto de saída<select id="flight-origin"><option value="GRU">São Paulo · Guarulhos (GRU)</option><option value="GIG">Rio de Janeiro · Galeão (GIG)</option><option value="CNF">Belo Horizonte (CNF)</option><option value="BSB">Brasília (BSB)</option><option value="POA">Porto Alegre (POA)</option><option value="CWB">Curitiba (CWB)</option><option value="FLN">Florianópolis (FLN)</option><option value="SSA">Salvador (SSA)</option><option value="REC">Recife (REC)</option><option value="FOR">Fortaleza (FOR)</option><option value="BEL">Belém (BEL)</option><option value="MAO">Manaus (MAO)</option></select></label><div class="flight-route"><span id="flight-origin-code">GRU<small>Brasil</small></span><span class="route-line" aria-hidden="true">→</span><span>BUE<small>AEP ou EZE</small></span></div><p class="body-copy">Compare bagagem, horários, conexões e traslado. AEP e EZE são aeroportos diferentes; confira o aeroporto de cada trecho.</p><a class="button primary" id="flight-search" href="https://www.google.com/travel/flights" target="_blank" rel="noopener noreferrer">Pesquisar voos para suas datas ↗</a><p class="fine-print">A busca abre no Google Voos. Confirme datas e passageiros no serviço.</p></article><article class="card"><h3>Seu valor de planejamento</h3><p class="muted">Estimativa editável, sem consulta de tarifa em tempo real.</p><div class="big-number" id="flight-total">R$ 7.000</div><p class="muted" id="flight-per-person"></p><ul class="simple-list"><li id="flight-travelers">3 adultos e 1 criança.</li><li>A tarifa infantil varia conforme companhia e idade.</li><li>Compare o total com bagagem e taxas incluídas.</li></ul><button class="text-button" type="button" data-go="orc">Ajustar o valor no orçamento →</button></article></div>
+</section>
+<section class="panel" id="orc" role="tabpanel" aria-labelledby="tab-orc" tabindex="0" hidden>
+<div class="section-heading"><div><p class="eyebrow">Cada escolha, um valor</p><h2>Quanto planejar para a Argentina?</h2></div><button class="button quiet" id="reset-budget" type="button">Restaurar estimativas</button></div><div class="grid2 budget-layout"><article class="card"><span class="small-label">Total planejado para o grupo</span><div class="big-number" id="budget-total" aria-live="polite">R$ 23.000</div><p class="muted" id="budget-average"></p><div id="budget-bars" class="budget-bars" aria-label="Distribuição do orçamento"></div><div class="note">O exemplo inicial é uma meta de gasto de R$ 23.000 para quatro pessoas e dez noites. Não é uma cotação. Ajuste os valores depois de pesquisar.</div></article><article class="card"><h3>Ajuste os valores em reais</h3><p class="muted">Os totais mudam enquanto você digita.</p><div id="budget-inputs" class="budget-inputs"></div><p class="fine-print">Valores salvos neste navegador. Não há cobrança ou contratação nesta página.</p></article></div>
+</section>
+<section class="panel" id="etapas" role="tabpanel" aria-labelledby="tab-etapas" tabindex="0" hidden>
+<div class="section-heading"><div><p class="eyebrow">Menos pendências, mais viagem</p><h2>Seu roteiro começa aqui.</h2></div></div><div class="grid2"><article class="card"><div class="card-heading"><h3>Lugares que você salvou</h3><span class="tag" id="saved-count">0 lugares</span></div><p class="muted">Organize a ordem dos passeios. As rotas abrem no Google Maps.</p><div id="saved-list"></div><a id="route-link" class="button quiet" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" hidden>Abrir rota dos primeiros 5 lugares ↗</a><button class="text-button" type="button" data-go="onde">Adicionar lugares pelo mapa →</button></article><article class="card"><div class="card-heading"><h3>Antes do embarque</h3><span id="checklist-count" class="tag">0 de 7</span></div><progress id="checklist-progress" max="7" value="0" aria-label="Etapas concluídas"></progress><div id="checklist" class="checklist"></div></article></div><div class="note">Orçamento, viajantes, datas e etapas ficam salvos só neste navegador. Use “Imprimir planejamento” para guardar uma cópia ou compartilhar um PDF.</div>
+</section>
+<section class="guide" id="guia-argentina" aria-labelledby="guide-title"><div class="section-heading"><div><p class="eyebrow">Um guia para começar</p><h2 id="guide-title">Planejar uma viagem à Argentina, sem complicar.</h2></div></div><p class="body-copy">O Atlas Viagem reúne um mapa de Buenos Aires, pesquisa de hospedagem, orçamento em reais e uma lista de planejamento. É um ponto de partida para brasileiros que viajam sozinhos, em casal ou em família. O foco atual é Buenos Aires; outras cidades da Argentina ainda não têm mapas próprios neste guia.</p><div class="faq-grid"><article><h3>O Atlas Viagem é gratuito?</h3><p>Sim. O mapa, o orçamento e o checklist não exigem assinatura ou cartão. Reservas e serviços externos têm seus próprios preços.</p></article><article><h3>Como consultar preços de hotéis em Buenos Aires?</h3><p>Escolha as datas, o bairro e os quartos no planejador. A consulta abre no serviço de hospedagem, onde você confere fotos, preço total e disponibilidade atual.</p></article><article><h3>Qual é o orçamento para viajar à Argentina em família?</h3><p>O exemplo do Atlas considera R$ 23.000 para quatro pessoas e dez noites, distribuídos em passagens, hospedagem, alimentação, passeios, transporte e seguro. É uma estimativa editável de planejamento, não uma cotação atual.</p></article><article><h3>Posso explorar as ruas com Street View?</h3><p>Sim. Selecione um lugar no mapa e use “Ver a rua no Street View”. A visualização abre no Google Maps e depende da cobertura disponível.</p></article></div><div class="sources"><h3>Fontes e limites das informações</h3><p>Mapa e cadastro de hospedagens: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap ↗</a>. Documentação: <a href="https://www.gov.br/pf/pt-br/assuntos/imigracao/controle-migratorio/quais-as-regras-de-viagem-de-criancas-e-adolescentes-ao-exterior" target="_blank" rel="noopener noreferrer">Polícia Federal ↗</a> e <a href="https://www.argentina.gob.ar/migraciones/documentacion-para-ingresar-al-pais-como-turista" target="_blank" rel="noopener noreferrer">Migrações da Argentina ↗</a>. O cadastro do mapa não confirma funcionamento, classificação, quartos ou disponibilidade de hotéis. Confira essas informações com a hospedagem.</p><p>Conteúdo revisado em <time datetime="2026-09-29">29 de setembro de 2026</time>. O exemplo de orçamento foi recuperado do planejamento original; não representa pesquisa de preços atual.</p></div></section>
+<section class="reading-guides" aria-labelledby="reading-title"><p class="eyebrow">Continue seu planejamento</p><h2 id="reading-title">Guias para viajar à Argentina.</h2><div class="guide-links"><a class="action-card guide-card" href="onde-ficar-buenos-aires.html"><h3>Onde ficar em Buenos Aires</h3><p>Compare bairros, localização e quartos antes de reservar.</p><span class="text-link">Ler guia de hospedagem →</span></a><a class="action-card guide-card" href="orcamento-viagem-argentina.html"><h3>Quanto planejar em reais</h3><p>Organize os custos do grupo, das passagens aos passeios.</p><span class="text-link">Ler guia de orçamento →</span></a><a class="action-card guide-card" href="documentos-viagem-argentina.html"><h3>Documentos e preparação</h3><p>Confira as fontes oficiais e organize as pendências de cada viajante.</p><span class="text-link">Ler checklist de documentos →</span></a></div></section>
+</main>
+<footer><span class="brand footer-brand">atlas<span>viagem</span></span><p>Um planejador de Buenos Aires para brasileiros.<br>Consultas externas abrem em outra aba.</p><span id="storage-status" role="status">Seu planejamento fica salvo neste navegador.</span></footer>
+</div><div id="toast" class="toast" role="status" hidden></div>
+<noscript><div class="noscript">Ative o JavaScript para usar o mapa e o planejamento interativo. O guia e as fontes continuam disponíveis abaixo.</div></noscript>
+</body></html>

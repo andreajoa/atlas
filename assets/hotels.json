@@ -1,0 +1,283 @@
+{
+  "source": "OpenStreetMap via Overpass API",
+  "retrieved": "2026-09-29",
+  "osm_base": "2026-09-30T00:51:01Z",
+  "places": [
+    {
+      "id": "osm-node-2262235404",
+      "name": "Abh - About Baires Hotel",
+      "type": "hotel",
+      "lat": -34.6003709,
+      "lng": -58.3808414,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2262235404"
+    },
+    {
+      "id": "osm-node-2262235407",
+      "name": "Alma Buenos Aires",
+      "type": "hotel",
+      "lat": -34.602036,
+      "lng": -58.379664,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2262235407"
+    },
+    {
+      "id": "osm-node-454517417",
+      "name": "Alvear Palace Hotel",
+      "type": "hotel",
+      "lat": -34.5877471,
+      "lng": -58.3887383,
+      "note": "Avenida Alvear. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/454517417"
+    },
+    {
+      "id": "osm-node-2262235403",
+      "name": "ART DECO Hotel & Suites ****",
+      "type": "hotel",
+      "lat": -34.6032952,
+      "lng": -58.3838741,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2262235403"
+    },
+    {
+      "id": "osm-node-2032732863",
+      "name": "Art Hotel",
+      "type": "hotel",
+      "lat": -34.5936523,
+      "lng": -58.3993884,
+      "note": "Azcuénaga 1268. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2032732863"
+    },
+    {
+      "id": "osm-node-1144740077",
+      "name": "CE",
+      "type": "hotel",
+      "lat": -34.5970716,
+      "lng": -58.3915513,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1144740077"
+    },
+    {
+      "id": "osm-node-724658672",
+      "name": "Chateau Blend Hotel Boutique",
+      "type": "hotel",
+      "lat": -34.5843575,
+      "lng": -58.3993756,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/724658672"
+    },
+    {
+      "id": "osm-node-1283906350",
+      "name": "Dazzler Suites Aroyo",
+      "type": "hotel",
+      "lat": -34.5919102,
+      "lng": -58.3799634,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1283906350",
+      "website": "http://www.dazzlersuitesarroyo.com"
+    },
+    {
+      "id": "osm-node-1642367459",
+      "name": "Dazzler Tower Maipú",
+      "type": "hotel",
+      "lat": -34.5982474,
+      "lng": -58.3770268,
+      "note": "Maipú. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1642367459"
+    },
+    {
+      "id": "osm-node-1439759352",
+      "name": "Dazzler Tower San Martin",
+      "type": "hotel",
+      "lat": -34.597082,
+      "lng": -58.3743907,
+      "note": "San Martín 920. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1439759352"
+    },
+    {
+      "id": "osm-node-1144740079",
+      "name": "Design Suites",
+      "type": "hotel",
+      "lat": -34.5970098,
+      "lng": -58.3913005,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1144740079"
+    },
+    {
+      "id": "osm-node-1642367449",
+      "name": "Esplendor",
+      "type": "hotel",
+      "lat": -34.5988364,
+      "lng": -58.3744004,
+      "note": "San Martín 780. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1642367449",
+      "website": "https://esplendorbuenosaires.com/"
+    },
+    {
+      "id": "osm-node-915725394",
+      "name": "Exe Hotel Colón",
+      "type": "hotel",
+      "lat": -34.6023098,
+      "lng": -58.3808927,
+      "note": "Carlos Pellegrini 507. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/915725394",
+      "website": "https://www.eurostarshotels.com/exe-hotel-colon.html"
+    },
+    {
+      "id": "osm-node-1239325419",
+      "name": "Gran Hotel Orly",
+      "type": "hotel",
+      "lat": -34.5973452,
+      "lng": -58.3725548,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1239325419"
+    },
+    {
+      "id": "osm-node-473604429",
+      "name": "Hotel Bauen",
+      "type": "hotel",
+      "lat": -34.6051237,
+      "lng": -58.3924631,
+      "note": "Avenida Callao 360. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/473604429"
+    },
+    {
+      "id": "osm-node-769901855",
+      "name": "Hotel Bristol",
+      "type": "hotel",
+      "lat": -34.6052017,
+      "lng": -58.3822929,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/769901855"
+    },
+    {
+      "id": "osm-node-2262235402",
+      "name": "Hotel Chile",
+      "type": "hotel",
+      "lat": -34.609038,
+      "lng": -58.384739,
+      "note": "Avenida de Mayo 1297. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2262235402"
+    },
+    {
+      "id": "osm-node-573387906",
+      "name": "Hotel León",
+      "type": "hotel",
+      "lat": -34.5955878,
+      "lng": -58.4123373,
+      "note": "Soler 3381. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/573387906"
+    },
+    {
+      "id": "osm-node-2032787931",
+      "name": "Hotel Nuevo Camino",
+      "type": "hotel",
+      "lat": -34.6079794,
+      "lng": -58.3936483,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2032787931"
+    },
+    {
+      "id": "osm-node-724657422",
+      "name": "Hotel Recoleta",
+      "type": "hotel",
+      "lat": -34.5839953,
+      "lng": -58.399794,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/724657422"
+    },
+    {
+      "id": "osm-node-1803935960",
+      "name": "Hotel República",
+      "type": "hotel",
+      "lat": -34.6042199,
+      "lng": -58.3824046,
+      "note": "Cerrito 370. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1803935960",
+      "website": "https://www.globales.com/es/hoteles/argentina/argentina/buenos-aires/globales-republica/"
+    },
+    {
+      "id": "osm-node-724643679",
+      "name": "Hotel Urban Suites Recoleta",
+      "type": "hotel",
+      "lat": -34.5890174,
+      "lng": -58.3925644,
+      "note": "Junín 1727. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/724643679",
+      "website": "https://www.urbanrecoleta.com"
+    },
+    {
+      "id": "osm-node-680448565",
+      "name": "Ibis",
+      "type": "hotel",
+      "lat": -34.6103171,
+      "lng": -58.3888086,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/680448565"
+    },
+    {
+      "id": "osm-node-1112458201",
+      "name": "Intersur Suites",
+      "type": "hotel",
+      "lat": -34.6046522,
+      "lng": -58.3949452,
+      "note": "Avenida Corrientes. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1112458201"
+    },
+    {
+      "id": "osm-node-1399347794",
+      "name": "La Giralda",
+      "type": "hotel",
+      "lat": -34.6084829,
+      "lng": -58.3792922,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1399347794"
+    },
+    {
+      "id": "osm-node-1108412254",
+      "name": "Orleans",
+      "type": "hotel",
+      "lat": -34.60124,
+      "lng": -58.3929992,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1108412254"
+    },
+    {
+      "id": "osm-node-1399347801",
+      "name": "Reconquista Plaza",
+      "type": "hotel",
+      "lat": -34.60074,
+      "lng": -58.3726791,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1399347801"
+    },
+    {
+      "id": "osm-node-2084991059",
+      "name": "Rochester Concept",
+      "type": "hotel",
+      "lat": -34.6013941,
+      "lng": -58.3769099,
+      "note": "Maipú 572. Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/2084991059",
+      "website": "https://www.rochester-hotel.com.ar/"
+    },
+    {
+      "id": "osm-node-1121649309",
+      "name": "Up Barrio Norte",
+      "type": "hotel",
+      "lat": -34.5963388,
+      "lng": -58.3948719,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1121649309"
+    },
+    {
+      "id": "osm-node-1146277353",
+      "name": "Wilton Palace",
+      "type": "hotel",
+      "lat": -34.5952228,
+      "lng": -58.3934609,
+      "note": "Cadastro OpenStreetMap consultado em 29/09/2026. Confira quartos, fotos, funcionamento e preço total no serviço de hospedagem.",
+      "source": "https://www.openstreetmap.org/node/1146277353"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+(async () => {
+  const $ = id => document.getElementById(id);
+  const results = [];
+  const assert = (condition, name) => { if (!condition) throw new Error('FAIL: ' + name); results.push(name); };
+  const change = (id, value) => { $(id).value = value; $(id).dispatchEvent(new Event('change', { bubbles: true })); };
+  const input = (id, value) => { $(id).value = value; $(id).dispatchEvent(new Event('input', { bubbles: true })); };
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const originalStorage = localStorage.getItem('atlas-viagem:v1');
+  const originalOpen = window.open;
+  const originalHash = location.hash;
+  const opened = [];
+  window.open = (url, ...args) => { opened.push({url: String(url), args}); return null; };
+  try {
+    const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
+    assert(new Set(ids).size === ids.length, 'IDs únicos; sem seções duplicadas');
+    for (const tab of document.querySelectorAll('.tab')) {
+      tab.click();
+      const panels = [...document.querySelectorAll('.panel')].filter(p => !p.hidden);
+      assert(panels.length === 1 && panels[0].id === tab.dataset.t, 'Aba: ' + tab.textContent);
+      assert(tab.getAttribute('aria-selected') === 'true' && tab.tabIndex === 0, 'Estado acessível: ' + tab.textContent);
+    }
+    $('tab-geral').focus(); $('tab-geral').dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    assert(!$('onde').hidden && document.activeElement === $('tab-onde'), 'Navegação de abas pelo teclado');
+    for (let i = 0; i < 80 && !$('map').dataset.ready; i++) await sleep(100);
+    assert($('map').dataset.ready === 'true', 'Mapa inicializado');
+    const initialZoom = Number($('map').dataset.zoom || 13);
+    document.querySelector('.leaflet-control-zoom-in').click(); await sleep(350);
+    assert(Number($('map').dataset.zoom) > initialZoom, 'Controle de zoom aproxima o mapa');
+    for (let i = 0; i < 80 && !document.querySelector('[data-place^="osm-"]'); i++) await sleep(100);
+    document.querySelector('[data-filter="hotel"]').click();
+    assert(document.querySelectorAll('.place-select').length === 30, '30 cadastros reais de hospedagem');
+    document.querySelector('.place-select').click();
+    const street = [...$('selected-place').querySelectorAll('a')].find(a => a.textContent.includes('Street View'));
+    const streetParams = new URL(street.href).searchParams;
+    assert(streetParams.get('api') === '1' && streetParams.get('map_action') === 'pano' && streetParams.has('viewpoint'), 'Street View aponta para o lugar selecionado');
+    $('search-selected-stay').click();
+    assert(new URL(opened.at(-1).url).searchParams.get('ss').includes('Buenos Aires'), 'Busca de quartos do hotel selecionado');
+    document.querySelector('[data-filter="bairro"]').click();
+    assert(document.querySelectorAll('.place-select').length === 6, 'Filtro de bairros');
+    input('place-search', 'Recoleta');
+    assert(document.querySelectorAll('.place-select').length === 1, 'Busca por lugar');
+    input('place-search', 'zzzz-sem-resultado');
+    assert(document.querySelectorAll('.place-select').length === 0 && $('place-list').textContent.includes('Nenhum lugar'), 'Estado de busca sem resultado');
+    input('place-search', '');
+    const save = document.querySelector('.save-button'); const alreadySaved = save.getAttribute('aria-pressed') === 'true';
+    save.click();
+    assert(JSON.parse(localStorage.getItem('atlas-viagem:v1')).saved.some(p => p.id === 'recoleta') !== alreadySaved, 'Favorito salva e remove no armazenamento');
+    if (!alreadySaved) save.click();
+    for (const button of [...document.querySelectorAll('.save-button')].slice(0, 2)) if (button.getAttribute('aria-pressed') === 'false') button.click();
+    $('tab-etapas').click();
+    const routeBefore = JSON.parse(localStorage.getItem('atlas-viagem:v1')).saved;
+    document.querySelector('#saved-list .saved-item button[aria-label^="Mover para baixo"]').click();
+    const routeAfter = JSON.parse(localStorage.getItem('atlas-viagem:v1')).saved;
+    assert(routeAfter[0].id === routeBefore[1].id && routeAfter[1].id === routeBefore[0].id, 'Roteiro permite mudar a ordem dos lugares');
+    const routeParams = new URL($('route-link').href).searchParams;
+    const routeLast = routeAfter[Math.min(routeAfter.length, 5) - 1];
+    assert(!$('route-link').hidden && routeParams.get('origin') === `${routeAfter[0].lat},${routeAfter[0].lng}` && routeParams.get('destination') === `${routeLast.lat},${routeLast.lng}`, 'Rota acompanha a ordem dos favoritos');
+    $('tab-orc').click(); $('reset-budget').click(); input('budget-0', '10000');
+    assert($('budget-total').textContent.includes('26.000') && $('hero-budget').textContent.includes('26.000') && $('flight-total').textContent.includes('10.000'), 'Orçamento recalcula totais em todas as seções');
+    assert(JSON.parse(localStorage.getItem('atlas-viagem:v1')).budget[0] === 10000, 'Orçamento persiste');
+    for (let i = 0; i < 6; i++) input('budget-' + i, '0');
+    assert($('budget-total').textContent.includes('0') && !$('budget-bars').textContent.includes('NaN'), 'Orçamento zero não divide por zero');
+    $('reset-budget').click(); assert($('budget-total').textContent.includes('23.000'), 'Restaurar orçamento');
+    $('tab-onde').click(); change('adults', '2'); change('children', '2'); change('rooms', '2');
+    $('child-ages').querySelector('[data-age="0"]').value = '6'; $('child-ages').querySelector('[data-age="0"]').dispatchEvent(new Event('change', { bubbles: true }));
+    $('child-ages').querySelector('[data-age="1"]').value = '10'; $('child-ages').querySelector('[data-age="1"]').dispatchEvent(new Event('change', { bubbles: true }));
+    change('checkin', '2027-07-12'); change('checkout', '2027-07-22');
+    $('stay-form').requestSubmit();
+    const booking = new URL(opened.at(-1).url);
+    assert(booking.hostname === 'www.booking.com' && booking.searchParams.get('checkin') === '2027-07-12' && booking.searchParams.get('checkout') === '2027-07-22' && booking.searchParams.get('group_adults') === '2' && booking.searchParams.get('group_children') === '2' && booking.searchParams.get('no_rooms') === '2' && booking.searchParams.getAll('age').join(',') === '6,10', 'Consulta transmite datas, quartos, adultos e idades');
+    const before = opened.length; change('checkout', '2027-07-10'); $('stay-form').requestSubmit();
+    assert(!$('stay-error').hidden && opened.length === before && !$('flight-search').hasAttribute('href'), 'Datas invertidas bloqueiam busca com erro claro');
+    change('checkout', '2027-07-22'); change('children', '0');
+    assert($('child-ages').children.length === 0 && !$('stay-summary').textContent.includes('criança'), 'Viagem sem crianças');
+    change('flight-origin', 'REC');
+    assert(new URL($('flight-search').href).searchParams.get('q').includes('REC'), 'Busca de voos acompanha a cidade de saída');
+    $('tab-etapas').click(); const check = document.querySelector('[data-task="0"]'); const checked = check.checked; check.click();
+    assert(JSON.parse(localStorage.getItem('atlas-viagem:v1')).completed.includes(0) !== checked, 'Checklist salva conclusão');
+    assert(Number($('checklist-progress').value) === document.querySelectorAll('#checklist input:checked').length, 'Progresso do checklist consistente');
+    assert(document.documentElement.scrollWidth <= window.innerWidth + 1, 'Sem rolagem horizontal da página');
+    assert(document.querySelectorAll('h1').length === 1 && !!document.querySelector('link[rel="canonical"]'), 'SEO: um H1 e canonical');
+    const schema = JSON.parse($('structured-data').textContent);
+    assert(schema['@graph'].some(n => n['@type'] === 'FAQPage' && n.mainEntity.length === 4), 'Dados estruturados válidos e perguntas visíveis');
+    return JSON.stringify({ passed: results.length, results });
+  } finally {
+    window.open = originalOpen;
+    if (originalStorage === null) localStorage.removeItem('atlas-viagem:v1'); else localStorage.setItem('atlas-viagem:v1', originalStorage);
+    history.replaceState(null, '', originalHash || location.pathname + location.search);
+    // Reload after the test to restore the UI as well as its persisted state.
+  }
+})()
